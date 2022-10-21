@@ -67,24 +67,46 @@ def test_algorithm(configuration):
         min_path_weight = int(testing_case_data[2])
         min_path = list(map(int, configuration[testing_case].split("[")[1].split(']')[0].split()))
 
-        for test in range(number_of_tests):
-            operation_time = 0
-            start = time.time_ns()
-            counted_min_path_weight, counted_path = find_path(load_graph("TestData/" + file_name),
-                                                              get_number_of_cities("TestData/" + file_name))
-            if counted_min_path_weight == min_path_weight:
-                print("Good job, that's right.")
-            else:
-                print("The algorithm is wrong. Check the minimal path weight.")
+        if file_name == "tsp_6_1.txt" or file_name == "tsp_6_2.txt":
+            for test in range(number_of_tests):
+                ten_repetitions_time = 0
+                for repetition in range(20):
+                    start = time.time_ns()
+                    counted_min_path_weight, counted_path = find_path(load_graph("TestData/" + file_name),
+                                                                      get_number_of_cities("TestData/" + file_name))
+                    if counted_min_path_weight == min_path_weight:
+                        print("Good job, that's right.")
+                    else:
+                        print("The algorithm is wrong. Check the minimal path weight.")
 
-            if counted_path == min_path:
-                print("Good job, that's right.")
-            else:
-                print("The algorithm is wrong. Check the minimal path")
+                    if counted_path == min_path:
+                        print("Good job, that's right.")
+                    else:
+                        print("The algorithm is wrong. Check the minimal path")
 
-            end = time.time_ns()
-            operation_time += end - start
-            output_file.write(str(operation_time) + "\n")
+                    end = time.time_ns()
+                    ten_repetitions_time += end - start
+                operation_time = ten_repetitions_time / 20
+                output_file.write(str(operation_time) + "\n")
+        else:
+            for test in range(number_of_tests):
+                operation_time = 0
+                start = time.time_ns()
+                counted_min_path_weight, counted_path = find_path(load_graph("TestData/" + file_name),
+                                                                  get_number_of_cities("TestData/" + file_name))
+                if counted_min_path_weight == min_path_weight:
+                    print("Good job, that's right.")
+                else:
+                    print("The algorithm is wrong. Check the minimal path weight.")
+
+                if counted_path == min_path:
+                    print("Good job, that's right.")
+                else:
+                    print("The algorithm is wrong. Check the minimal path")
+
+                end = time.time_ns()
+                operation_time += end - start
+                output_file.write(str(operation_time) + "\n")
     output_file.write(configuration[len(configuration) - 1])
     output_file.close()
 
